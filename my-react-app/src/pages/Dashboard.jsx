@@ -1,18 +1,26 @@
-export default function Dashboard() {
+export default function Dashboard({loginStatus, setLoginStatus}) {
   
+    const login = () => {
+        setLoginStatus(true);
+      };
 
     return (
         <>
-    <h1>Dashboard</h1>
-    <form >  
-        <label>Username:</label>
-        <input/>
+        {!loginStatus && (
+            
+          <form>
+            <h1>Log in</h1>
 
-        <label>Password:</label>
-        <input/>
-        <button type='submit'>Login</button>
-    </form>
-    </>
+            <label>Username:</label>
+            <input />
+  
+            <label>Password:</label>
+            <input />
+            <button onClick={login}>Login</button>
+          </form>
+        )}
+  
+        {loginStatus && <h1>Min side</h1>}
+      </>
     );
   };
-  
