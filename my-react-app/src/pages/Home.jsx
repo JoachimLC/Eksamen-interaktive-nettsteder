@@ -1,4 +1,5 @@
 import EventCard from "../components/EventCard";
+import CardsContainer from "../components/Cardscontainer";
 import { useState, useEffect } from 'react';
 
 export default function Home ({festivalEvents, bigCityEvents, getBigCityEvents}) { 
@@ -14,27 +15,16 @@ export default function Home ({festivalEvents, bigCityEvents, getBigCityEvents})
     <h1>Home</h1>
     <section>
       <h2>Festivals</h2>
-      <ul>
-          {festivalEvents.map(event => (
-            <li key={event.id}>
-            <EventCard event={event} clickable={true}/>
-            </li>
-          ))}
-      </ul>
+      <CardsContainer cards={festivalEvents} clickable={true}/>
+      
     </section>
     <section>
           <h2>Attractions in {chosenCity}</h2>
-          <button onClick={() => CityChosen("Oslo")}>Oslo</button>
-          <button onClick={() => CityChosen("Berlin")}>Berlin</button>
-          <button onClick={() => CityChosen("Paris")}>Paris</button>
-          <button onClick={() => CityChosen("London")}>London</button>
-          <ul>
-          {bigCityEvents.map(event => (
-            <li key={event.id}>
-            <EventCard  event={event} clickable={false} />
-            </li>
-          ))}
-      </ul>
+          <button className="button" onClick={() => CityChosen("Oslo")}>Oslo</button>
+          <button className="button" onClick={() => CityChosen("Berlin")}>Berlin</button>
+          <button className="button" onClick={() => CityChosen("Paris")}>Paris</button>
+          <button className="button" onClick={() => CityChosen("London")}>London</button>
+          <CardsContainer cards={bigCityEvents} clickable={false}/>
     </section>
     </>
   );

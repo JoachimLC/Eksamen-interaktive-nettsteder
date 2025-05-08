@@ -5,8 +5,8 @@ export default function Layout() {
 
   return (
     <>
-      <header>
-            <nav>
+      <header className="headerLayout">
+            <nav className="nav">
                 <ul>
                     <li><Link to={`/`}>Logo</Link></li>
                     <li><Link to={`/category/Music`}>Music</Link></li>

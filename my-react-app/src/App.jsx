@@ -57,7 +57,7 @@ function App() {
   };
 
   const getCategoryAttractions = async (category) => {
-    fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&segmentId=${category}&locale=no`)
+    fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&segmentId=${category}&locale=no&size=4`)
       .then(res => res.json())
       .then(data => {
         const attractions = data._embedded?.attractions || [];
@@ -73,7 +73,7 @@ function App() {
       postformattedDate = date.concat("T00:00:00Z");
 
     }
-    fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&classificationName=${category}&locale=*&countryCode=${country}&city=${city}&startDateTime=${postformattedDate}&keyword=${searchText}`)
+    fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&size=8&classificationName=${category}&locale=*&countryCode=${country}&city=${city}&startDateTime=${postformattedDate}&keyword=${searchText}`)
       .then(res => res.json())
       .then(data => {
         console.log(data)
@@ -83,7 +83,7 @@ function App() {
   };
   
   const getCategoryVenues = async (category, country) => {
-    fetch(`https://app.ticketmaster.com/discovery/v2/venues.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&keyword=${category}&locale=*&countryCode=${country}`)
+    fetch(`https://app.ticketmaster.com/discovery/v2/venues.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&size=8&keyword=${category}&locale=*&countryCode=${country}`)
       .then(res => res.json())
       .then(data => {
         const venues = data._embedded?.venues || [];

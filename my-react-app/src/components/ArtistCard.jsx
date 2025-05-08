@@ -1,7 +1,10 @@
-export default function ArtistCard ({attraction}) {
+export default function ArtistCard ({artist}) {
   return (
     <>
-      <li>{attraction.name}</li>
+    <div className={"card"}>
+      {artist.name}
+      <img src={artist?.images?.[0].url} />
+    </div>
     </>
   );
 }

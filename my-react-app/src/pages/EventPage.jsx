@@ -2,6 +2,8 @@ import{useParams} from "react-router-dom"
 import { useState, useEffect } from 'react';
 import EventCard from "../components/EventCard";
 import ArtistCard from "../components/ArtistCard";
+import ArtistCardsContainer from "../components/ArtistCardContainer";
+import CardsContainer from "../components/Cardscontainer";
 
 
 export default function EventPage({events}) {
@@ -33,19 +35,11 @@ export default function EventPage({events}) {
       <p>Type event: {event?.classifications?.[0]?.subType?.name}</p>
       <section>
             <h2>Festivalpass</h2>
-            <ul>
-                {festivalEvent.map(event => (
-                  <EventCard key={event.id} event={event} clickable={false} />
-                ))}
-            </ul>
+            <CardsContainer cards={festivalEvent} clickable={false}/>
       </section>
       <section>
         <h2>Artister</h2>
-        <ul>
-          {festivalEvent?.[0]?._embedded?.attractions?.map(attraction => (
-              <ArtistCard key={attraction.id} attraction={attraction}/>
-           ))}
-        </ul>
+        <ArtistCardsContainer attractions={festivalEvent}/>
       </section>
       
       
