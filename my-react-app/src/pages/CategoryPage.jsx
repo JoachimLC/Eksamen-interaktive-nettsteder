@@ -1,17 +1,16 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from 'react';
-import EventCard from "../components/EventCard";
+import CategoryCard from "../components/CategoryCard";
 
 
-export default function CategoryPage({categoryAttractions, categoryEvents, categoryVenues, getCategoryAttractions, getCategoryEvents, getCategoryVenues, favorites, setFavorites, selectedCity, setSelectedCity, selectedCountry, setSelectedCountry, setSearchText, searchText  }) {
+export default function CategoryPage({categoryAttractions, categoryEvents, categoryVenues, getCategoryAttractions, getCategoryEvents, getCategoryVenues, favorites, setFavorites, selectedCity, setSelectedCity, selectedCountry, setSelectedCountry, setSearchText, searchText, selectedDate, setSelectedDate  }) {
   const { slug } = useParams(); 
 
   let newVariableForSlug = slug;
 
-  if (newVariableForSlug === "Arts%&%Theater") {
+  if (newVariableForSlug === "Theater") {
     newVariableForSlug = "Arts & Theater";
   }
-
 
   const addToFavorites = (card) => {
     setFavorites([
@@ -27,14 +26,34 @@ export default function CategoryPage({categoryAttractions, categoryEvents, categ
   }
 
   const filter = () => {
-    getCategoryAttractions(newVariableForSlug)
-    getCategoryEvents(newVariableForSlug, selectedCountry, selectedCity, searchText)
+    let segmentidforattractions = "";
+
+  if (newVariableForSlug === "Arts & Theater") {
+    segmentidforattractions = "KZFzniwnSyZfZ7v7na";
+  } else if (newVariableForSlug === "Music") {
+    segmentidforattractions = "KZFzniwnSyZfZ7v7nJ";
+  } else if (newVariableForSlug === "Sports") {
+    segmentidforattractions = "KZFzniwnSyZfZ7v7nE";
+  }
+
+    getCategoryAttractions(segmentidforattractions)
+    getCategoryEvents(newVariableForSlug, selectedCountry, selectedCity, searchText, selectedDate)
     getCategoryVenues(newVariableForSlug, selectedCountry)
   }
   
   useEffect(()=>{
-    getCategoryAttractions(newVariableForSlug)
-    getCategoryEvents(newVariableForSlug, selectedCountry, selectedCity, searchText)
+
+  let segmentidforattractions = "";
+
+  if (newVariableForSlug === "Arts & Theater") {
+    segmentidforattractions = "KZFzniwnSyZfZ7v7na";
+  } else if (newVariableForSlug === "Music") {
+    segmentidforattractions = "KZFzniwnSyZfZ7v7nJ";
+  } else if (newVariableForSlug === "Sports") {
+    segmentidforattractions = "KZFzniwnSyZfZ7v7nE";
+  }
+    getCategoryAttractions(segmentidforattractions)
+    getCategoryEvents(newVariableForSlug, selectedCountry, selectedCity, searchText, selectedDate)
     getCategoryVenues(newVariableForSlug, selectedCountry)
     },[slug])
 
@@ -43,6 +62,14 @@ export default function CategoryPage({categoryAttractions, categoryEvents, categ
       <h1>category page</h1>
       <h1>{newVariableForSlug}</h1>
       
+      <input 
+        type="date" 
+        value={selectedDate} 
+        onChange={(e) => setSelectedDate(e.target.value)} 
+      />
+
+     
+      {/*benyttet select fra react biblioteket for valgbokser, se rapport */}
       <label>
       Country 
         <select name="Country" value={selectedCountry} onChange={e => setSelectedCountry(e.target.value)}>
@@ -66,41 +93,26 @@ export default function CategoryPage({categoryAttractions, categoryEvents, categ
       <button onClick={() => filter()}>Filter</button>
 
       <h2>Attraksjoner</h2>
-        <ul>
-            {categoryAttractions.map(attraction => (
-              <>
-                <EventCard key={attraction.id} event={attraction} clickable={false} />
-                {/* AI brukt til å fikse på noe syntaks på conditional knappene, se rapport */}
-                {favorites.some((fav) => fav.id === attraction.id) ? (
-                <button onClick={() => removeFromFavorites(attraction)}>💕</button>
-            ) : (<button onClick={() => addToFavorites(attraction)}>🖤</button>)}
-              </>
-             ))}
-       </ul>
+        <CategoryCard 
+          data={categoryAttractions} 
+          favorites={favorites} 
+          addToFavorites={addToFavorites} 
+          removeFromFavorites={removeFromFavorites} 
+      />
       <h2>Arrangementer</h2>
-        <ul>
-              {categoryEvents.map(event => (
-                <>
-                <EventCard key={event.id} event={event} clickable={false} />
-                {/* AI brukt til å fikse på noe syntaks på conditional knappene, se rapport */}
-                {favorites.some((fav) => fav.id === event.id) ? (
-                <button onClick={() => removeFromFavorites(event)}>💕</button>
-            ) : (<button onClick={() => addToFavorites(event)}>🖤</button>)}
-                </>
-              ))}
-        </ul>
+      <CategoryCard 
+          data={categoryEvents} 
+          favorites={favorites} 
+          addToFavorites={addToFavorites} 
+          removeFromFavorites={removeFromFavorites} 
+      />
       <h2>Spillesteder</h2>
-        <ul>
-              {categoryVenues.map(venue => (
-                <>
-                <EventCard key={venue.id} event={venue} clickable={false} />
-                {/* AI brukt til å fikse på noe syntaks på conditional knappene, se rapport */}
-                {favorites.some((fav) => fav.id === venue.id) ? (
-                <button onClick={() => removeFromFavorites(venue)}>💕</button>
-            ) : (<button onClick={() => addToFavorites(venue)}>🖤</button>)}
-                </>
-              ))}
-        </ul>
+      <CategoryCard 
+          data={categoryVenues} 
+          favorites={favorites} 
+          addToFavorites={addToFavorites} 
+          removeFromFavorites={removeFromFavorites} 
+      />
       </>
     );
   };

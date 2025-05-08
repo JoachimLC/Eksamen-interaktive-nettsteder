@@ -10,8 +10,8 @@ export default function Layout() {
                 <ul>
                     <li><Link to={`/`}>Logo</Link></li>
                     <li><Link to={`/category/Music`}>Music</Link></li>
-                    <li><Link to={`/category/sports`}>Sports</Link></li>
-                    <li><Link to={`/category/Arts%&%Theater`}>Arts & Theater</Link></li>
+                    <li><Link to={`/category/Sports`}>Sports</Link></li>
+                    <li><Link to={`/category/Theater`}>Arts & Theater</Link></li>
                     <li><Link to={`/dashboard`}>Login</Link></li>
                 </ul>
             </nav>

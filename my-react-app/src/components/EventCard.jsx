@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function EventCard ({event, clickable}) {
   return (
     <>
-      <li>
+      
             <h3>{event.name}</h3>
             {event?.images?.[0]?.url && (
               <img src={event.images[0].url} />
@@ -17,7 +17,7 @@ export default function EventCard ({event, clickable}) {
             {clickable && (
           <Link to={`/event/${event.id}`}>Gå til event</Link>
         )}
-        </li>
+       
     </> 
   );
 }

@@ -16,7 +16,9 @@ export default function Home ({festivalEvents, bigCityEvents, getBigCityEvents})
       <h2>Festivals</h2>
       <ul>
           {festivalEvents.map(event => (
-            <EventCard key={event.id} event={event} clickable={true}/>
+            <li key={event.id}>
+            <EventCard event={event} clickable={true}/>
+            </li>
           ))}
       </ul>
     </section>
@@ -28,7 +30,9 @@ export default function Home ({festivalEvents, bigCityEvents, getBigCityEvents})
           <button onClick={() => CityChosen("London")}>London</button>
           <ul>
           {bigCityEvents.map(event => (
-            <EventCard key={event.id} event={event} clickable={false} />
+            <li key={event.id}>
+            <EventCard  event={event} clickable={false} />
+            </li>
           ))}
       </ul>
     </section>

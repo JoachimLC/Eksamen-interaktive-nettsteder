@@ -18,6 +18,7 @@ function App() {
   const [selectedCity, setSelectedCity] = useState("Oslo")
   const [selectedCountry, setSelectedCountry] = useState("NO")
   const [searchText, setSearchText] = useState("")
+  const [selectedDate, setSelectedDate] = useState("")
   const [loginStatus, setLoginStatus] = useState(false)
 
 
@@ -56,7 +57,7 @@ function App() {
   };
 
   const getCategoryAttractions = async (category) => {
-    fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&classificationName=${category}&locale=no`)
+    fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&segmentId=${category}&locale=no`)
       .then(res => res.json())
       .then(data => {
         const attractions = data._embedded?.attractions || [];
@@ -64,8 +65,15 @@ function App() {
       });
   };
   
-  const getCategoryEvents = async (category, country, city, searchText) => {
-    fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&classificationName=${category}&locale=*&countryCode=${country}&city=${city}&keyword=${searchText}`)
+  const getCategoryEvents = async (category, country, city, searchText, date) => {
+    //Ai brukt til tankeprosess før jeg selv kom frem til denne løsningen med manuell iso formattering, se rapport
+    let postformattedDate = "";
+
+    if (date) {
+      postformattedDate = date.concat("T00:00:00Z");
+
+    }
+    fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&classificationName=${category}&locale=*&countryCode=${country}&city=${city}&startDateTime=${postformattedDate}&keyword=${searchText}`)
       .then(res => res.json())
       .then(data => {
         console.log(data)
@@ -95,7 +103,7 @@ function App() {
         <Route element={<Layout />}>
             <Route index element={<Home festivalEvents={festivalEvents} bigCityEvents={bigCityEvents} getBigCityEvents={getBigCityEvents}/>} />
             <Route path="/event/:id" element={<EventPage events={festivalEvents} />} />
-            <Route path="/category/:slug" element={<CategoryPage categoryAttractions={categoryAttractions} categoryEvents={categoryEvents} categoryVenues={categoryVenues} getCategoryAttractions={getCategoryAttractions} getCategoryEvents={getCategoryEvents} getCategoryVenues={getCategoryVenues} favorites={favorites} setFavorites={setFavorites} selectedCity={selectedCity} setSelectedCity={setSelectedCity} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} setSearchText={setSearchText} searchText={searchText}/>} />
+            <Route path="/category/:slug" element={<CategoryPage categoryAttractions={categoryAttractions} categoryEvents={categoryEvents} categoryVenues={categoryVenues} getCategoryAttractions={getCategoryAttractions} getCategoryEvents={getCategoryEvents} getCategoryVenues={getCategoryVenues} favorites={favorites} setFavorites={setFavorites} selectedCity={selectedCity} setSelectedCity={setSelectedCity} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} setSearchText={setSearchText} searchText={searchText} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>} />
             <Route path="/dashboard" element={<Dashboard loginStatus={loginStatus} setLoginStatus={setLoginStatus}/>} />
         </Route>
       </Routes>
