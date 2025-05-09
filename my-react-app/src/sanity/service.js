@@ -42,6 +42,7 @@ export const getAllEvents = async () => {
 
   export const getUsersByEventId = async (eventId) => {
     const users = await client.fetch(
+      {/*AI benyttet til å hjelpe denne funksjonen fungere - se rapport -minstrekrav b*/}
       `*[_type == "user" && ($eventId in previousPurchases[]->apiId || $eventId in wishlist[]->apiId)]{
         _id,
         name,

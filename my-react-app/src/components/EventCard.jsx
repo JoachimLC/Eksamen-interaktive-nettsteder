@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-//clickable && conditional syntaksen ble hjulpet frem av chatgpt, se rapport
+//clickable && conditional syntaksen ble hjulpet frem av chatgpt, se rapport - minstekrav karakter C  
 export default function EventCard ({event, clickable}) {
   return (
     <>
