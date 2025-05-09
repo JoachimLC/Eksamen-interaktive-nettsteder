@@ -1,4 +1,7 @@
-export default function Dashboard({loginStatus, setLoginStatus}) {
+import SanityCardsContainer from "../components/SanityCardContainer";
+import { Link } from "react-router-dom";
+
+export default function Dashboard({loginStatus, setLoginStatus, sanityUsers, sanityEvents}) {
   
     const login = () => {
         setLoginStatus(true);
@@ -8,7 +11,7 @@ export default function Dashboard({loginStatus, setLoginStatus}) {
         <>
         {!loginStatus && (
             
-          <form>
+          <form onSubmit={login}>
             <h1>Log in</h1>
 
             <label>Username:</label>
@@ -19,8 +22,26 @@ export default function Dashboard({loginStatus, setLoginStatus}) {
             <button onClick={login}>Login</button>
           </form>
         )}
+        
+        {loginStatus && (
+            <section className="dashboard">
+                <h1>Min side</h1>
+                <h2>Brukere</h2>
+                <SanityCardsContainer data={sanityUsers}/>
+                
+                <h2>Alle Events</h2>
+                <ul className="dashboardeventlist">
+                    {sanityEvents.map((event) => (
+                        <li key={event._id}>
+                        {event.title}
+                        </li>
+                    ))
+                    }
+                </ul>
+
+          </section>
+        )}
   
-        {loginStatus && <h1>Min side</h1>}
       </>
     );
   };

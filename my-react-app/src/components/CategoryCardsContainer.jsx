@@ -6,7 +6,7 @@ export default function CategoryCardsContainer({ data, favorites, addToFavorites
       {data.map((attraction) => (
         <div key={attraction.id}>
             <EventCard key={attraction.id} event={attraction} clickable={false} />
-            {/* AI brukt til å fikse på noe syntaks på conditional knappene, se rapport */}
+            {/* AI brukt til å fikse på noe syntaks på conditional visning av knappene, se rapport */}
             {favorites.some((fav) => fav.id === attraction.id) ? (
               <button className="heart" onClick={() => removeFromFavorites(attraction)}>💕</button>
             ) : (

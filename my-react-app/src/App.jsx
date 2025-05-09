@@ -7,6 +7,9 @@ import Layout from './components/Layout';
 import EventPage from './pages/EventPage';
 import CategoryPage from './pages/CategoryPage';
 import Dashboard from './pages/Dashboard';
+import { getAllEvents } from './sanity/service';
+import { getAllUsers } from './sanity/service';
+import SanityEventDetails from './pages/SanityEventDetails';
 
 function App() {
   const [festivalEvents, setFestivalEvents] = useState([])
@@ -20,6 +23,8 @@ function App() {
   const [searchText, setSearchText] = useState("")
   const [selectedDate, setSelectedDate] = useState("")
   const [loginStatus, setLoginStatus] = useState(false)
+  const [sanityEvents, setSanityEvents] = useState([])
+  const [sanityUsers, setSanityUsers] = useState([])
 
 
   
@@ -76,7 +81,6 @@ function App() {
     fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&size=8&classificationName=${category}&locale=*&countryCode=${country}&city=${city}&startDateTime=${postformattedDate}&keyword=${searchText}`)
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         const events = data._embedded?.events || [];
         setCategoryEvents(events); 
       });
@@ -91,11 +95,23 @@ function App() {
       });
   };
   
+  const getAndSetSanityUsers = async () => {
+    const data = await getAllUsers();
+        setSanityUsers(data); 
+  };
+
+  const getAndSetSanityEvents = async () => {
+    const data = await getAllEvents();
+        setSanityEvents(data); 
+  };
+  
   
 
   useEffect(()=>{
     getFestivalEvents()
     getBigCityEvents("Oslo")
+    getAndSetSanityUsers()
+    getAndSetSanityEvents()
   },[])
 
   return (
@@ -104,7 +120,8 @@ function App() {
             <Route index element={<Home festivalEvents={festivalEvents} bigCityEvents={bigCityEvents} getBigCityEvents={getBigCityEvents}/>} />
             <Route path="/event/:id" element={<EventPage events={festivalEvents} />} />
             <Route path="/category/:slug" element={<CategoryPage categoryAttractions={categoryAttractions} categoryEvents={categoryEvents} categoryVenues={categoryVenues} getCategoryAttractions={getCategoryAttractions} getCategoryEvents={getCategoryEvents} getCategoryVenues={getCategoryVenues} favorites={favorites} setFavorites={setFavorites} selectedCity={selectedCity} setSelectedCity={setSelectedCity} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} setSearchText={setSearchText} searchText={searchText} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>} />
-            <Route path="/dashboard" element={<Dashboard loginStatus={loginStatus} setLoginStatus={setLoginStatus}/>} />
+            <Route path="/dashboard" element={<Dashboard loginStatus={loginStatus} setLoginStatus={setLoginStatus} sanityUsers={sanityUsers} sanityEvents={sanityEvents}/>} />
+            <Route path="/sanity-event/:id" element={<SanityEventDetails/>} />
         </Route>
       </Routes>
   );
