@@ -2,7 +2,7 @@
 import { createClient } from '@sanity/client';
 
 const options ={
-    projectId: "gfn9w7ca",
+    projectId: "zk7w65tv",
     dataset: "production"
 }
  

@@ -13,8 +13,8 @@ export default function SanityCard ({data}) {
         <h3>Ønskeliste</h3>
             <ul>
                 {data?.wishlist?.map((event) => (
-                     <Link to={`/sanity-event/${event.apiId}`}>
-                        <li key={event._id}> 
+                     <Link key={event._id} to={`/sanity-event/${event.apiId}`}>
+                        <li> 
                             {event.title} 
                         
                         </li> 
@@ -24,8 +24,8 @@ export default function SanityCard ({data}) {
         <h3>Tidligere Kjøp</h3>
             <ul>
                 {data?.previousPurchases?.map((event) => (
-                    <Link to={`/sanity-event/${event.apiId}`}>
-                    <li key={event._id}> 
+                    <Link key={event._id} to={`/sanity-event/${event.apiId}`}>
+                    <li> 
                         {event.title} 
                     </li>
                     </Link>
