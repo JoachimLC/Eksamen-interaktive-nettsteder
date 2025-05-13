@@ -68,7 +68,9 @@ export default function CategoryPage({categoryAttractions, categoryEvents, categ
           />
 
         
-          {/*benyttet select fra react biblioteket for valgbokser, se rapport */}
+          {/*benyttet select fra react biblioteket for valgbokser , se rapport */}
+          {/*Derfor også valgt å ha state setter direkte i en onchange på knappene, istedet for i egen onclick funksjon som i webtricks */}
+
           <label className="filter-item">
           Country 
             <select name="Country" value={selectedCountry} onChange={e => setSelectedCountry(e.target.value)}>

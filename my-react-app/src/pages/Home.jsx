@@ -20,6 +20,7 @@ export default function Home ({festivalEvents, bigCityEvents, getBigCityEvents})
     </section>
     <section>
           <h2>Attractions in {chosenCity}</h2>
+          {/* Benyttet upmostly for onclick eventhandling referanse, se rapport*/}
           <button className="button" onClick={() => CityChosen("Oslo")}>Oslo</button>
           <button className="button" onClick={() => CityChosen("Berlin")}>Berlin</button>
           <button className="button" onClick={() => CityChosen("Paris")}>Paris</button>
