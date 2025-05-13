@@ -6,10 +6,15 @@ import EventCard from "../components/EventCard";
 
 export default function SanityEventDetails() {
     const{id}=useParams()
+
+      /*Kunne lagt disse statene i app.jsx med de andre, men syns det er mer hensiktmessig her da den kun har en bifunksjon i denne komponenten*/
+
     const [eventDetails, setEventDetails] = useState()
     const [sanityEvent, setSanityEvent] = useState()
     const [users, setUsers] = useState([])
 
+  /*Samme gjelder henting av data, kunne vært gjort i app.jsx og drilla data ned til denne komponenten*/
+  /*Men i dette tilfellet ser jeg ikke at denne dataen ville blitt brukt andre steder*/
 
     const getEventByEventId = async () => {
       fetch(`https://app.ticketmaster.com/discovery/v2/events/${id}?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&locale=*`)
