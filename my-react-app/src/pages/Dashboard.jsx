@@ -2,7 +2,9 @@ import SanityCardsContainer from "../components/SanityCardContainer";
 
 export default function Dashboard({loginStatus, setLoginStatus, sanityUsers, sanityEvents}) {
   
-    const login = () => {
+    const login = (a) => {
+      a.preventDefault();
+
         setLoginStatus(true);
       };
 
@@ -18,7 +20,7 @@ export default function Dashboard({loginStatus, setLoginStatus, sanityUsers, san
   
             <label>Password:</label>
             <input />
-            <button onClick={login}>Login</button>
+            <button type='submit'>Login</button>
           </form>
         )}
         
