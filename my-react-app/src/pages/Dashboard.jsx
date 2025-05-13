@@ -1,5 +1,4 @@
 import SanityCardsContainer from "../components/SanityCardContainer";
-import { Link } from "react-router-dom";
 
 export default function Dashboard({loginStatus, setLoginStatus, sanityUsers, sanityEvents}) {
   

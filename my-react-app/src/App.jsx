@@ -30,7 +30,8 @@ function App() {
   
 
 
-  //AI benyttet til deler av denne funksjonen, se rapport
+  //AI benyttet til deler av denne funksjonen, se rapport -Karakter E minstrekrav
+
   const getFestivalEvents = async () => {
     const festivals = ['Findings Festival', 'NEON Festival', 'Skeikampenfestivalen', 'Tons of Rock'];
     const fetches = festivals.map(name =>
