@@ -3,6 +3,8 @@ import CardsContainer from "../components/Cardscontainer";
 import { useState, useEffect } from 'react';
 
 export default function Home ({festivalEvents, bigCityEvents, getBigCityEvents}) { 
+  /*Kunne lagt denne staten i app.jsx med de andre, men syns det er mer hensiktmessig her da den kun har en bifunksjon i denne komponenten*/
+    /*Dersom andre komponenter skulle være påvirket av dette valget av by, så kunne staten blitt flyttet opp et nivå*/
   const [chosenCity, setChosenCity] = useState([])
 
   const CityChosen = (city) => {

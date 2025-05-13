@@ -1,28 +1,19 @@
 import{useParams} from "react-router-dom"
 import { useState, useEffect } from 'react';
-import EventCard from "../components/EventCard";
-import ArtistCard from "../components/ArtistCard";
 import ArtistCardsContainer from "../components/ArtistCardContainer";
 import CardsContainer from "../components/Cardscontainer";
 
 
-export default function EventPage({events}) {
+export default function EventPage({events, festivalEventById, setFestivalEventById}) {
     const{id}=useParams()
-    const [festivalEvent, setFestivalEvent] = useState([])
-    
-    
     const event = events.find(evt => evt.id === id);
 
+      /* Denne lever i denne komponenten slik at den får hentet event med id fra useParams */
     const getEventByAttractionId = async () => {
-      fetch(`https://app.ticketmaster.com/discovery/v2/events?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&attractionId=${event?.id}&locale=*`)
-        .then(res => res.json())
-        .then(data => {
-          const events = data._embedded?.events || [];
-          setFestivalEvent(events);
-          console.log(events)
-        })
-        .catch((error) =>
-        console.error("Feil ved henting av event:", error));
+        const response = await fetch(`https://app.ticketmaster.com/discovery/v2/events?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&attractionId=${event?.id}&locale=*`);
+        const data = await response.json();
+        const events = data._embedded?.events || [];
+        setFestivalEventById(events);
   };
 
     useEffect(()=>{
@@ -37,11 +28,11 @@ export default function EventPage({events}) {
       <p>Type event: {event?.classifications?.[0]?.subType?.name}</p>
       <section>
             <h2>Festivalpass</h2>
-            <CardsContainer cards={festivalEvent} clickable={false}/>
+            <CardsContainer cards={festivalEventById} clickable={false}/>
       </section>
       <section>
         <h2>Artister</h2>
-        <ArtistCardsContainer attractions={festivalEvent}/>
+        <ArtistCardsContainer attractions={festivalEventById}/>
       </section>
       
       

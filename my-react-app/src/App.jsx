@@ -25,6 +25,11 @@ function App() {
   const [loginStatus, setLoginStatus] = useState(false)
   const [sanityEvents, setSanityEvents] = useState([])
   const [sanityUsers, setSanityUsers] = useState([])
+  const [sanityEventDetails, setSanityEventDetails] = useState()
+  const [sanityEvent, setSanityEvent] = useState()
+  const [users, setUsers] = useState([])
+  const [festivalEventById, setFestivalEventById] = useState([])
+
 
 
   
@@ -50,29 +55,20 @@ function App() {
     );
     setFestivalEvents(filtered);
     console.log(filtered)
-
   };
 
   const getBigCityEvents = async (city) => {
-      fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&city=${city}&size=10`)
-          .then(res => res.json())
-          .then(data => {
-            const events = data._embedded?.events || [];
-            setBigCityEvents(events); 
-        })
-        .catch((error) =>
-        console.error("Feil ved henting av event:", error));
+      const response = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&city=${city}&size=10`);
+      const data = await response.json();
+      const events = data._embedded?.events || [];
+      setBigCityEvents(events);
   };
 
   const getCategoryAttractions = async (category) => {
-    fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&segmentId=${category}&locale=no&size=4`)
-      .then(res => res.json())
-      .then(data => {
-        const attractions = data._embedded?.attractions || [];
-        setCategoryAttractions(attractions); 
-      })
-      .catch((error) =>
-        console.error("Feil ved henting av event:", error));
+    const response = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&segmentId=${category}&locale=no&size=4`);
+    const data = await response.json();
+    const attractions = data._embedded?.attractions || [];
+    setCategoryAttractions(attractions);
   };
   
   const getCategoryEvents = async (category, country, city, searchText, date) => {
@@ -81,27 +77,18 @@ function App() {
 
     if (date) {
       postformattedDate = date.concat("T00:00:00Z");
-
     }
-    fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&size=8&classificationName=${category}&locale=*&countryCode=${country}&city=${city}&startDateTime=${postformattedDate}&keyword=${searchText}`)
-      .then(res => res.json())
-      .then(data => {
-        const events = data._embedded?.events || [];
-        setCategoryEvents(events); 
-      })
-      .catch((error) =>
-        console.error("Feil ved henting av event:", error));
+    const response = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&size=8&classificationName=${category}&locale=*&countryCode=${country}&city=${city}&startDateTime=${postformattedDate}&keyword=${searchText}`);
+    const data = await response.json();
+    const events = data._embedded?.events || [];
+    setCategoryEvents(events);
   };
   
   const getCategoryVenues = async (category, country) => {
-    fetch(`https://app.ticketmaster.com/discovery/v2/venues.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&size=8&keyword=${category}&locale=*&countryCode=${country}`)
-      .then(res => res.json())
-      .then(data => {
-        const venues = data._embedded?.venues || [];
-        setCategoryVenues(venues); 
-      })
-      .catch((error) =>
-        console.error("Feil ved henting av event:", error));
+    const response = await fetch(`https://app.ticketmaster.com/discovery/v2/venues.json?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&size=8&keyword=${category}&locale=*&countryCode=${country}`);
+    const data = await response.json();
+    const venues = data._embedded?.venues || [];
+    setCategoryVenues(venues);
   };
   
   const getAndSetSanityUsers = async () => {
@@ -113,6 +100,7 @@ function App() {
     const data = await getAllEvents();
         setSanityEvents(data); 
   };
+
   
   
 
@@ -127,13 +115,14 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
             <Route index element={<Home festivalEvents={festivalEvents} bigCityEvents={bigCityEvents} getBigCityEvents={getBigCityEvents}/>} />
-            <Route path="/event/:id" element={<EventPage events={festivalEvents} />} />
+            <Route path="/event/:id" element={<EventPage events={festivalEvents} festivalEventById={festivalEventById} setFestivalEventById={setFestivalEventById} />} />
             <Route path="/category/:slug" element={<CategoryPage categoryAttractions={categoryAttractions} categoryEvents={categoryEvents} categoryVenues={categoryVenues} getCategoryAttractions={getCategoryAttractions} getCategoryEvents={getCategoryEvents} getCategoryVenues={getCategoryVenues} favorites={favorites} setFavorites={setFavorites} selectedCity={selectedCity} setSelectedCity={setSelectedCity} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} setSearchText={setSearchText} searchText={searchText} selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>} />
             <Route path="/dashboard" element={<Dashboard loginStatus={loginStatus} setLoginStatus={setLoginStatus} sanityUsers={sanityUsers} sanityEvents={sanityEvents}/>} />
-            <Route path="/sanity-event/:id" element={<SanityEventDetails/>} />
+            <Route path="/sanity-event/:id" element={<SanityEventDetails sanityEventDetails={sanityEventDetails} setSanityEventDetails={setSanityEventDetails} sanityEvent={sanityEvent} setSanityEvent={setSanityEvent} users={users} setUsers={setUsers} />} />
         </Route>
       </Routes>
   );
 }
 
 export default App;
+

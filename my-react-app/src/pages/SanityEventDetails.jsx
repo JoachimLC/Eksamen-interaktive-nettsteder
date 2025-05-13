@@ -2,28 +2,16 @@ import{useParams} from "react-router-dom"
 import { useState, useEffect } from 'react';
 import { getEventById } from "../sanity/service";
 import { getUsersByEventId } from "../sanity/service";
-import EventCard from "../components/EventCard";
 
-export default function SanityEventDetails() {
+export default function SanityEventDetails({sanityEventDetails, setSanityEventDetails, sanityEvent, setSanityEvent, users, setUsers}) {
     const{id}=useParams()
 
-      /*Kunne lagt disse statene i app.jsx med de andre, men syns det er mer hensiktmessig her da den kun har en bifunksjon i denne komponenten*/
-
-    const [eventDetails, setEventDetails] = useState()
-    const [sanityEvent, setSanityEvent] = useState()
-    const [users, setUsers] = useState([])
-
-  /*Samme gjelder henting av data, kunne vært gjort i app.jsx og drilla data ned til denne komponenten*/
-  /*Men i dette tilfellet ser jeg ikke at denne dataen ville blitt brukt andre steder*/
-
+      
+    /* Denne lever i denne komponenten slik at den får hentet event med id fra useParams */
     const getEventByEventId = async () => {
-      fetch(`https://app.ticketmaster.com/discovery/v2/events/${id}?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&locale=*`)
-        .then(res => res.json())
-        .then(data => {
-          setEventDetails(data)
-        })
-        .catch((error) =>
-        console.error("Feil ved henting av event:", error));
+      const response = await fetch(`https://app.ticketmaster.com/discovery/v2/events/${id}?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&locale=*`);
+      const data = await response.json();
+      setSanityEventDetails(data);
     };
 
 
@@ -48,10 +36,10 @@ export default function SanityEventDetails() {
       
       <section className="SanityEventDetails">
         <h1>{sanityEvent?.title}</h1>
-        <p>Event type: {eventDetails?.classifications?.[0]?.genre?.name}</p>
-        <p>Event kategori: {eventDetails?.classifications?.[0]?.segment?.name}</p>
-        <p>Sted: {eventDetails?._embedded.venues?.[0]?.name}</p>
-        <p>Dato: {eventDetails?.dates?.start?.localDate}</p>
+        <p>Event type: {sanityEventDetails?.classifications?.[0]?.genre?.name}</p>
+        <p>Event kategori: {sanityEventDetails?.classifications?.[0]?.segment?.name}</p>
+        <p>Sted: {sanityEventDetails?._embedded.venues?.[0]?.name}</p>
+        <p>Dato: {sanityEventDetails?.dates?.start?.localDate}</p>
 
         <h2>Brukere med eventet i ønskeliste eller tidligere kjøp:</h2>
         <ul>
