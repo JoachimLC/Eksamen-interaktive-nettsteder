@@ -60,6 +60,8 @@ function App() {
             const events = data._embedded?.events || [];
             setBigCityEvents(events); 
         })
+        .catch((error) =>
+        console.error("Feil ved henting av event:", error));
   };
 
   const getCategoryAttractions = async (category) => {
@@ -68,7 +70,9 @@ function App() {
       .then(data => {
         const attractions = data._embedded?.attractions || [];
         setCategoryAttractions(attractions); 
-      });
+      })
+      .catch((error) =>
+        console.error("Feil ved henting av event:", error));
   };
   
   const getCategoryEvents = async (category, country, city, searchText, date) => {
@@ -84,7 +88,9 @@ function App() {
       .then(data => {
         const events = data._embedded?.events || [];
         setCategoryEvents(events); 
-      });
+      })
+      .catch((error) =>
+        console.error("Feil ved henting av event:", error));
   };
   
   const getCategoryVenues = async (category, country) => {
@@ -93,7 +99,9 @@ function App() {
       .then(data => {
         const venues = data._embedded?.venues || [];
         setCategoryVenues(venues); 
-      });
+      })
+      .catch((error) =>
+        console.error("Feil ved henting av event:", error));
   };
   
   const getAndSetSanityUsers = async () => {

@@ -21,6 +21,8 @@ export default function EventPage({events}) {
           setFestivalEvent(events);
           console.log(events)
         })
+        .catch((error) =>
+        console.error("Feil ved henting av event:", error));
   };
 
     useEffect(()=>{

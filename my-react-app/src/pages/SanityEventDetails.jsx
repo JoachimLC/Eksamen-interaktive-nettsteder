@@ -15,8 +15,10 @@ export default function SanityEventDetails() {
       fetch(`https://app.ticketmaster.com/discovery/v2/events/${id}?apikey=m5ODSZRZed6yFz7Tp4RTQ34xNFxfGny3&locale=*`)
         .then(res => res.json())
         .then(data => {
-          setEventDetails(data);
+          setEventDetails(data)
         })
+        .catch((error) =>
+        console.error("Feil ved henting av event:", error));
     };
 
 
